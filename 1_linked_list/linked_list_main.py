@@ -12,14 +12,14 @@ class LinkedList:
         self.head = None
         self.tail = None
 
-    def add_in_tail(self, item: Node) -> None:
+    def add_in_tail(self, item):
         if self.head is None:
             self.head = item
         else:
             self.tail.next = item
         self.tail = item
 
-    def print_all_nodes(self) -> None:
+    def print_all_nodes(self):
         node = self.head
         while node is not None:
             print(node.value)
@@ -33,7 +33,7 @@ class LinkedList:
             node = node.next
         return None
 
-    def find_all(self, val) -> list:
+    def find_all(self, val):
         found_nodes = []
         node = self.head
 
@@ -87,7 +87,7 @@ class LinkedList:
             node = node.next
         return cnt
 
-    def insert(self, afterNode: Node, newNode: Node):
+    def insert(self, afterNode, newNode):
         node = self.head
 
         if self.head is None:
