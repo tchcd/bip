@@ -1,5 +1,6 @@
 import unittest
 from linked_list_main import LinkedList, Node
+import linked_list_additional as lla
 
 
 class TestLinkedList(unittest.TestCase):
@@ -368,6 +369,61 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(self._get_values(ll), [1, 2, 3, 0])
         self.assertEqual(ll.head, n1)
         self.assertEqual(ll.tail, n0)
+
+
+class TestLinkedListAdditonal(unittest.TestCase):
+    def setUp(self) -> None:
+        pass
+
+    def test_correct_head_and_tail_in_linked_list(self):
+        llaa = lla.LinkedList()
+        n1 = Node(1)
+        n2 = Node(2)
+        n3 = Node(3)
+        llaa.add_to_tail(n1)
+        llaa.add_to_tail(n2)
+        llaa.add_to_tail(n3)
+        self.assertEqual(llaa.head, n1)
+        self.assertEqual(llaa.tail, n3)
+
+    def test_sum_linked_lists_elements_with_not_correct_element(self):
+        llpos = lla.LinkedList()
+        llneg = lla.LinkedList()
+        n1 = Node(1)
+        n2 = Node(2)
+        n3 = Node(3)
+        n4 = Node('a')
+        n5 = Node(-2)
+        n6 = Node(-3)
+
+        llpos.add_to_tail(n1)
+        llpos.add_to_tail(n2)
+        llpos.add_to_tail(n3)
+        llneg.add_to_tail(n4)
+        llneg.add_to_tail(n5)
+        llneg.add_to_tail(n6)
+
+        self.assertRaises(ValueError, lla.sum_linked_lists_elements, llpos, llneg)
+
+    def test_sum_linked_lists_elements_with_correct_element(self):
+        llpos = lla.LinkedList()
+        llneg = lla.LinkedList()
+        n1 = Node(1)
+        n2 = Node(2)
+        n3 = Node(3)
+        n4 = Node('-1')
+        n5 = Node(-2)
+        n6 = Node(-3)
+
+        llpos.add_to_tail(n1)
+        llpos.add_to_tail(n2)
+        llpos.add_to_tail(n3)
+        llneg.add_to_tail(n4)
+        llneg.add_to_tail(n5)
+        llneg.add_to_tail(n6)
+
+        self.assertEqual(lla.sum_linked_lists_elements(llpos, llneg), [0.0, 0.0, 0.0])
+
 
 
 if __name__ == "__main__":
