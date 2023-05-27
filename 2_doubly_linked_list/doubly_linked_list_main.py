@@ -1,4 +1,4 @@
-from typing import Union, List, Optional
+from typing import Union, List
 
 
 class Node:
@@ -62,7 +62,8 @@ class LinkedList2:
             node = node.next
             if node is None:
                 self.tail = None
-            if not all:
+            if not all and node:
+                node.prev = None
                 return
 
         while node:
@@ -71,10 +72,10 @@ class LinkedList2:
                 if not all:
                     flag = 1
             else:
+                node.prev = prev
                 prev = node
                 self.tail = prev
             node = node.next
-
 
     def clean(self) -> None:
         self.__init__()
@@ -98,22 +99,24 @@ class LinkedList2:
             while node:
                 if node.next is None:
                     node.next = newNode
-                    self.tail = newNode
                     newNode.next = None
+                    newNode.prev = node
+                    self.tail = newNode
+                    return
 
                 node = node.next
-            self.head = newNode
-            self.tail = newNode
 
         while node:
             if node == afterNode:
                 newNode.next = afterNode.next
                 afterNode.next = newNode
+                newNode.prev = node
                 if newNode.next is None:
                     self.tail = newNode
+                    return
+                newNode.next.prev = newNode
             node = node.next
 
-# я совершенно забыл следить еще и за prev у каждого объекта
     def add_in_head(self, newNode):
         if self.head is None:
             self.head = newNode
@@ -122,22 +125,9 @@ class LinkedList2:
 
         node = self.head
         newNode.next = node
+        newNode.prev = None
+        node.prev = newNode
         self.head = newNode
-
-
-if __name__ == "__main__":
-    ll = LinkedList2()
-    node1 = Node(1)
-    node2 = Node(2)
-    node3 = Node(2)
-    ll.add_in_tail(node1)
-    ll.add_in_tail(node2)
-    ll.add_in_tail(node3)
-
-    ll.delete(2)
-    ll.print_all_nodes()
-    print('head', ll.head)
-    print('tail', ll.tail)
 
 
 
