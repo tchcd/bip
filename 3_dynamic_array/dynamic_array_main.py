@@ -32,6 +32,12 @@ class DynArray:
         self.count += 1
 
     def insert(self, i, itm):
+        """Python insert realization
+            for (i = n; --i >= where; )
+                items[i+1] = items[i];
+            Py_INCREF(v);
+            items[where] = v;
+            """
         if i < 0 or i > self.count:
             raise IndexError('Index is out of bounds')
 
