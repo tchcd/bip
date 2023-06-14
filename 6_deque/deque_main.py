@@ -29,7 +29,6 @@ class Deque:
         return len(self.deque)
 
 
-'''
 def is_palindrome(word):
     deque = Deque()
 
@@ -43,5 +42,4 @@ def is_palindrome(word):
         if front_char != tail_char:
             return False
     return True
-print(is_palindrome('never odd or even'))
-'''
+#print(is_palindrome('never odd or even'))
