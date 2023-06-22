@@ -148,17 +148,3 @@ class OrderedStringList(OrderedList):
         if v1 > v2:
             return 1
         return 0
-
-
-if __name__ == "__main__":
-    l = OrderedList(True)
-    l.add(0)
-    l.add(0)
-    l.add(0)
-    l.add(1)
-    l.add(1)
-    l.add(1)
-
-    l.delete(0)
-
-    print([i.value for i in l.get_all()])
