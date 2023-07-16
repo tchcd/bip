@@ -20,33 +20,29 @@ class PowerSet:
             return True
         return False
 
-    def intersection(self, set2) -> list:
-        res = []
+    def intersection(self, set2):
+        intersection = PowerSet()
         for el in set2.slots.values():
             if self.slots.get(el) is not None:
-                res.append(el)
-        return res
+                intersection.put(el)
+        return intersection
 
-    def union(self, set2) -> list:
-        first_set = []
-        second_set = []
+    def union(self, set2):
+        union = PowerSet()
 
         for el in self.slots.keys():
-            first_set.append(el)
+            union.put(el)
 
         for el in set2.slots.values():
             if self.slots.get(el) is None:
-                second_set.append(el)
-
-        union = first_set + second_set
-
+                union.put(el)
         return union
 
-    def difference(self, set2) -> list:
-        diff = []
+    def difference(self, set2):
+        diff = PowerSet()
         for el in self.slots.keys():
             if el not in set2.slots:
-                diff.append(el)
+                diff.put(el)
         return diff
 
     def issubset(self, set2) -> bool:

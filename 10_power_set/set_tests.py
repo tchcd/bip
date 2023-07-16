@@ -67,7 +67,7 @@ class TestPowerSet(unittest.TestCase):
         t1.put('b')
         t1.put('c')
 
-        self.assertEqual(t1.intersection(t2), [])
+        self.assertEqual(list(t1.intersection(t2).slots.keys()), [])
 
     def test_union(self):
         t1 = PowerSet()
@@ -75,11 +75,13 @@ class TestPowerSet(unittest.TestCase):
         t1.put('a')
         t1.put('b')
         t1.put('c')
+        t1.put(1)
 
         t2.put('a')
         t2.put('g')
+        t2.put(1)
 
-        self.assertEqual(set(t1.union(t2)), {'a', 'b', 'c', 'g'})
+        self.assertEqual(set(t1.union(t2).slots.keys()), {'a', 'b', 'c', 'g', 1})
 
     def test_union_empty_hash(self):
         t1 = PowerSet()
@@ -87,7 +89,7 @@ class TestPowerSet(unittest.TestCase):
         t2.put('a')
         t2.put('b')
 
-        self.assertEqual(set(t1.union(t2)), {'a', 'b'})
+        self.assertEqual(set(t1.union(t2).slots.keys()), {'a', 'b'})
 
     def test_union_empty_param(self):
         t1 = PowerSet()
@@ -96,7 +98,7 @@ class TestPowerSet(unittest.TestCase):
         t1.put('b')
         t1.put('c')
 
-        self.assertEqual(t1.union(t2), ['a', 'b', 'c'])
+        self.assertEqual(t1.union(t2).slots.keys(), {'a', 'b', 'c'})
 
     def test_difference(self):
         t1 = PowerSet()
@@ -104,11 +106,12 @@ class TestPowerSet(unittest.TestCase):
         t1.put('a')
         t1.put('b')
         t1.put('c')
+        t1.put(1)
 
         t2.put('b')
         t2.put('g')
 
-        self.assertEqual(t1.difference(t2), ['a', 'c'])
+        self.assertEqual(t1.difference(t2), ['a', 'c', 1])
 
     def test_difference_empty(self):
         t1 = PowerSet()
@@ -129,9 +132,11 @@ class TestPowerSet(unittest.TestCase):
         t1.put('a')
         t1.put('b')
         t1.put('c')
+        t1.put(1)
 
         t2.put('b')
         t2.put('c')
+        t2.put(1)
 
         self.assertEqual(t1.issubset(t2), True)
 
