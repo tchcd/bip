@@ -25,9 +25,7 @@ class PowerSet:
         for el in set2:
             if self.slots.get(el) is not None:
                 res.append(el)
-        if res:
-            return res
-        return None
+        return res
 
     def union(self, set2):
         first_set = []
@@ -43,18 +41,14 @@ class PowerSet:
 
         union = first_set + second_set
 
-        if union:
-            return union
-        return None
+        return union
 
     def difference(self, set2):
         diff = []
         for el in self.slots.keys():
             if el not in set2:
                 diff.append(el)
-        if diff:
-            return diff
-        return None
+        return diff
 
     def issubset(self, set2):
         for el in set2:
