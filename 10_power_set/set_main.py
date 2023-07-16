@@ -32,8 +32,7 @@ class PowerSet:
         second_set = []
 
         for el in self.slots.keys():
-            if el is not None:
-                first_set.append(el)
+            first_set.append(el)
 
         for el in set2:
             if self.slots.get(el) is None:
