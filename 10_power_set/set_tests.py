@@ -9,30 +9,30 @@ class TestPowerSet(unittest.TestCase):
     # возможность добавления отсутствующего элемента
     # и невозможность добавления присутствующего в множестве элемента с помощью put();
     def test_put_present_elem(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
 
         t.put('c')
-        self.assertEqual(set(t.slots), {None, 'a', 'b', 'c'})
+        self.assertEqual(set(t.slots), {'a', 'b', 'c'})
 
 
     def test_put_missing_elem(self):
         pass
 
     def test_remove_elem(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
 
         self.assertEqual(t.remove('c'), True)
         self.assertEqual(t.remove('d'), False)
-        self.assertEqual(set(t.slots), {None, 'a', 'b'})
+        self.assertEqual(set(t.slots), {'a', 'b'})
 
     def test_intersection(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -44,13 +44,13 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.intersection(set2), None)
 
     def test_intersection_empty_hash(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         set1 = {'a', 'b'}
 
         self.assertEqual(t.intersection(set1), None)
 
     def test_intersection_empty_param(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -60,7 +60,7 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.intersection(set1), None)
 
     def test_union(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -71,14 +71,14 @@ class TestPowerSet(unittest.TestCase):
 
 
     def test_union_empty_hash(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
 
         set1 = {'a', 'b'}
 
         self.assertEqual(set(t.union(set1)), {'a', 'b'})
 
     def test_union_empty_param(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -87,7 +87,7 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.union(set1), ['a','b','c'])
 
     def test_difference(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -96,7 +96,7 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.difference(set1), ['a', 'c'])
 
     def test_difference_empty(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -105,7 +105,7 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.difference(set1), None)
 
     def test_issubset_all_params(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -114,7 +114,7 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.issubset(set1), True)
 
     def test_issubset_all_hash(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
@@ -123,7 +123,7 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.issubset(set1), False)
 
     def test_issubset_no_all(self):
-        t = PowerSet(5, 1)
+        t = PowerSet()
         t.put('a')
         t.put('b')
         t.put('c')
