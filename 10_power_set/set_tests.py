@@ -25,6 +25,15 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(t.remove('d'), False)
         self.assertEqual(set(t.slots), {'a', 'b'})
 
+    def test_exception_intersection(self):
+        t = PowerSet()
+        for i in range(1, 101):
+            t.put(i)
+        set2 = {i for i in range(50, 151)}
+
+        self.assertEqual(set(t.intersection(set2)), set(i for i in range(50, 101)))
+        self.assertEqual(t.intersection(set2), [i for i in range(50, 101)])
+
     def test_intersection(self):
         t = PowerSet()
         t.put('a')
