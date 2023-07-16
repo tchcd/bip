@@ -20,21 +20,21 @@ class PowerSet:
             return True
         return False
 
-    def intersection(self, set2: set) -> list:
+    def intersection(self, set2) -> list:
         res = []
-        for el in set2:
+        for el in set2.slots.values():
             if self.slots.get(el) is not None:
                 res.append(el)
         return res
 
-    def union(self, set2: set) -> list:
+    def union(self, set2) -> list:
         first_set = []
         second_set = []
 
         for el in self.slots.keys():
             first_set.append(el)
 
-        for el in set2:
+        for el in set2.slots.values():
             if self.slots.get(el) is None:
                 second_set.append(el)
 
@@ -42,15 +42,15 @@ class PowerSet:
 
         return union
 
-    def difference(self, set2: set) -> list:
+    def difference(self, set2) -> list:
         diff = []
         for el in self.slots.keys():
-            if el not in set2:
+            if el not in set2.slots:
                 diff.append(el)
         return diff
 
-    def issubset(self, set2: set) -> bool:
-        for el in set2:
+    def issubset(self, set2) -> bool:
+        for el in set2.slots.values():
             if self.slots.get(el) is None:
                 return False
         return True

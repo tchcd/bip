@@ -26,113 +26,142 @@ class TestPowerSet(unittest.TestCase):
         self.assertEqual(set(t.slots), {'a', 'b'})
 
     def test_exception_intersection(self):
-        t = PowerSet()
+        t1 = PowerSet()
+        t2 = PowerSet()
         for i in range(1, 101):
-            t.put(i)
-        set2 = {i for i in range(50, 151)}
+            t1.put(i)
+        for i in range(50, 151):
+            t2.put(i)
 
-        self.assertEqual(set(t.intersection(set2)), set(i for i in range(50, 101)))
-        self.assertEqual(t.intersection(set2), [i for i in range(50, 101)])
+        self.assertEqual(set(t1.intersection(t2)), set(i for i in range(50, 101)))
+        self.assertEqual(t1.intersection(t2), [i for i in range(50, 101)])
 
     def test_intersection(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t3 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        set1 = {'a', 'b'}
-        set2 = {'d','g'}
+        t2.put('a')
+        t2.put('b')
+        t3.put('d')
+        t3.put('g')
 
-        self.assertEqual(set(t.intersection(set1)), {'a', 'b'})
-        self.assertEqual(t.intersection(set2), [])
+        self.assertEqual(set(t1.intersection(t2)), {'a', 'b'})
+        self.assertEqual(t1.intersection(t3), [])
 
     def test_intersection_empty_hash(self):
-        t = PowerSet()
-        set1 = {'a', 'b'}
+        t1 = PowerSet()
+        t2 = PowerSet()
 
-        self.assertEqual(t.intersection(set1), [])
+        t2.put('a')
+        t2.put('b')
+        self.assertEqual(t1.intersection(t2), [])
 
     def test_intersection_empty_param(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        set1 = set()
-
-        self.assertEqual(t.intersection(set1), [])
+        self.assertEqual(t1.intersection(t2), [])
 
     def test_union(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        set1 = {'a', 'g'}
+        t2.put('a')
+        t2.put('g')
 
-        self.assertEqual(set(t.union(set1)), {'a','b','c','g'})
-
+        self.assertEqual(set(t1.union(t2)), {'a', 'b', 'c', 'g'})
 
     def test_union_empty_hash(self):
-        t = PowerSet()
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t2.put('a')
+        t2.put('b')
 
-        set1 = {'a', 'b'}
-
-        self.assertEqual(set(t.union(set1)), {'a', 'b'})
+        self.assertEqual(set(t1.union(t2)), {'a', 'b'})
 
     def test_union_empty_param(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
-        set1 = set()
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        self.assertEqual(t.union(set1), ['a','b','c'])
+        self.assertEqual(t1.union(t2), ['a', 'b', 'c'])
 
     def test_difference(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
-        set1 = {'b','g'}
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        self.assertEqual(t.difference(set1), ['a', 'c'])
+        t2.put('b')
+        t2.put('g')
+
+        self.assertEqual(t1.difference(t2), ['a', 'c'])
 
     def test_difference_empty(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
-        set1 = {'b','c','a'}
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        self.assertEqual(t.difference(set1), [])
+        t2.put('b')
+        t2.put('c')
+        t2.put('a')
+
+        self.assertEqual(t1.difference(t2), [])
 
     def test_issubset_all_params(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
-        set1 = {'b', 'c'}
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        self.assertEqual(t.issubset(set1), True)
+        t2.put('b')
+        t2.put('c')
+
+        self.assertEqual(t1.issubset(t2), True)
 
     def test_issubset_all_hash(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
-        set1 = {'b','c','a','g','h'}
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        self.assertEqual(t.issubset(set1), False)
+        t2.put('b')
+        t2.put('c')
+        t2.put('a')
+        t2.put('g')
+        t2.put('h')
+
+        self.assertEqual(t1.issubset(t2), False)
 
     def test_issubset_no_all(self):
-        t = PowerSet()
-        t.put('a')
-        t.put('b')
-        t.put('c')
-        set1 = {'b','c','g'}
+        t1 = PowerSet()
+        t2 = PowerSet()
+        t1.put('a')
+        t1.put('b')
+        t1.put('c')
 
-        self.assertEqual(t.issubset(set1), False)
+        t2.put('b')
+        t2.put('c')
+        t2.put('g')
+
+        self.assertEqual(t1.issubset(t2), False)
 
 
 if __name__ == "__main__":
