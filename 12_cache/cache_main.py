@@ -22,13 +22,12 @@ class NativeCache:
             if self.slots[slot] is None:
                 self.slots[slot] = key
                 self.values[slot] = value
-                return True
+                return
             slot = self.step(slot)
 
         slot_to_replace = self.get_kicked_slot()
         self.slots[slot_to_replace] = key
         self.values[slot_to_replace] = value
-        return False
 
     def get_value(self, key):
         slot = self.hash(key)
