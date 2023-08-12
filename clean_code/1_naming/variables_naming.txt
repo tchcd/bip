@@ -1,0 +1,35 @@
+1. data - total_parsed_ads
+// все полученные парсером объявления
+
+2. distance - distance_to_subway_km
+// расстояние до метро в км
+
+3. data - flat_data
+// данные о квартире
+
+4. cnt - house_rating_score
+// кол-во очков рейтинга у квартиры
+
+5. url_count - pages_to_parse_count
+// кол-во страниц для парсинга
+
+6. chrome_driver - chrome_driver_path
+// путь до файла драйвер
+
+7. time_now - current_datetime
+// текущее дата-время
+
+8. choice - random_int_1_to_3
+// случайное число от 1 до 3
+
+9. res - list_of_wrong_translations
+// список не правильных переводов для слова
+
+10. score - total_user_score
+// общий счет пользователя
+
+11. default_interval - default_repetition_interval_in_seconds
+// интервал между повторениями в секундах
+
+12. date_now - current_date
+// текущая дата
