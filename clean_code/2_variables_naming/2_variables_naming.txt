@@ -1,0 +1,25 @@
+
+6.1.
+data - new_added_rows
+choice - random_int_1_to_3
+cnt - house_rating_score
+res - list_of_wrong_translations
+for key, value in self.exception_handlers.items() - for status_code, text in self.exception_handlers.items()
+
+6.2.
+debug = self.debug  - термин дебаг
+create_connection(host)  - термин хост
+from requests import Request   - термин реквест
+from responses import Response - термин респонс
+
+6.3.
+flat_address
+flat_properties
+flat_rooms
+
+6.4.
+house_properties_list - house_features
+pg_string_connection_master - pg_dsn_master
+clickhouse_lo_string_connection - ch_lo_dsn
+datetime_max_value - max_datetime
+average_monthly_sales_amount - monthly_sales_avg
