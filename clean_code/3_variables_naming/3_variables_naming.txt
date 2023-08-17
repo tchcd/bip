@@ -1,0 +1,36 @@
+
+7.1
+- is_not_optimized  -> is_optimize
+- reply -> is_reply
+- probation -> is_probation
+- bid_increase -> is_bid_increase
+- prod_instance -> is_prod_instance
+
+7.2
+- def delete(self, val, all=False) -> None:
+    node = self.head
+    prev = None
+    flag = 0
+// Здесь переменную flag нужно заменить на found = False
+
+- return {"ok": True}
+// ok можно заменить на success
+
+7.3
+for key, value in self.exception_handlers.items() - for status_code, text in self.exception_handlers.items()
+// не i, j - но key, value
+
+7.4
+start_datetime / end_datetime
+
+7.5
+- cnt -> house_rating_score
+
+- cnt -> df_size
+def get_data(q, con):
+        df = pd.read_sql(q, con)
+        cnt_str = len(df)
+        return df, cnt_str
+// Но вообще лучше совсем убрать,
+// и считать размер там, где нужно,
+// а не возвращать кортеж
