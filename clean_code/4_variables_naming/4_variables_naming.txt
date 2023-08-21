@@ -1,0 +1,50 @@
+
+
+1.
+_ = pd.to_datetime(time['start_time'][0] - timedelta(days=1))
+//
+start_datetime = pd.to_datetime(time['start_time'][0] - timedelta(days=1))
+
+
+2.
+_d = pd.date_range(start_date, end_date).strftime('%Y%m%d').tolist()
+//
+date_range = pd.date_range(start_date, end_date).strftime('%Y%m%d').tolist()
+
+
+3.
+_d = list(set(_d))
+//
+date_partitions = list(set(_d))
+
+
+4.
+_df = df.merge(df_managers, left_on='Менеджер', right_on='manager', how='left', indicator=True)
+//
+managers_and_employees = df.merge(df_managers, on='managers', how='left')
+
+
+5.
+result = _df[_df['_merge'] == 'both']
+//
+employee_managers = _df[_df['_merge'] == 'both']
+
+
+6.
+data = result[result['Менеджер'] == manager]
+//
+manager = result[result['Менеджер'] == manager]
+
+
+7.
+sheet = df_managers[df_managers['manager'] == manager].reset_index()
+//
+sheet_id = df_managers[df_managers['manager'] == manager].reset_index()
+
+
+8.
+time = pd.read_sql(q, URI_TARGET_DISTR_LA_LF)
+//
+start_datetime = pd.read_sql(q, URI_TARGET_DISTR_LA_LF)
+
+
