@@ -1,5 +1,4 @@
 
-
 1.
 _ = pd.to_datetime(time['start_time'][0] - timedelta(days=1))
 //
@@ -48,3 +47,25 @@ time = pd.read_sql(q, URI_TARGET_DISTR_LA_LF)
 start_datetime = pd.read_sql(q, URI_TARGET_DISTR_LA_LF)
 
 
+9.
+summ = get_sum(data)
+//
+total_amount = get_sum(data)
+
+
+10.
+tz = pytz.timezone('Europe/Moscow')
+//
+msk_tz = pytz.timezone('Europe/Moscow')
+
+
+11.
+user_seen_flag = 0
+//
+is_user_found
+
+
+12.
+distance = self.driver.find_elements(...)
+//
+distance_to_subway_km = self.driver.find_elements(...)
