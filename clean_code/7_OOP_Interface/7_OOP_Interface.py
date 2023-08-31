@@ -1,25 +1,25 @@
 
-1.
+# 1.
 class User:
-    def __init__(self):
-        """
-        Здесь мог бы быть if user_type == advertiser
-        тогда логика создания юзера релкамодателя,
-        если вебмастер то логика создания веюмастера.
-        Но лучше сделать фабричные методы
-        """
-        pass
+    def __init__(self, name, advertiser_type=None, site=None):
+        self.name = name
+        self.advertiser_type = advertiser_type
+        self.site = site
 
     @staticmethod
-    def create_advertiser(name, adv):
-        pass
+    def create_advertiser(name, advertiser_type):
+        return User(name, advertiser_type)
 
     @staticmethod
     def create_webmaster(name, site):
-        pass
+        return User(name, site)
 
 
-2.
+User.create_advertiser('Petr', 'sales')
+User.create_webmaster('Alex', '123.com')
+
+
+# 2.
 class MarketingCampaign:
     def __init__(self, name, start_date, end_date):
         self.name = name
@@ -45,7 +45,7 @@ camp.run()
 
 
 
-3.
+# 3.
 class DatabaseConnector:
     def __init__(self, dsn):
         self.dsn = dsn
