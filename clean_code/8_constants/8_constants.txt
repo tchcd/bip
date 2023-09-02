@@ -1,0 +1,82 @@
+
+1.
+const = 1000000
+//
+INITIAL_RATING_VALUE_DIVIDER = 1000000
+//Изменен нейминг константы первоначального значения дедлителя в формуле расчета рейтинга
+
+
+2.
+self.driver.implicitly_wait(5)
+//
+SELENIUM_IMPLICITLY_WAIT = 5
+self.driver.implicitly_wait(SELENIUM_IMPLICITLY_WAIT)
+// В константу вынесено значение явного ожидания библиотеки селениум
+
+
+3.
+default_interval = 3600  # 1 hour
+//
+REPEAT_INTERVAL_IN_SECONDS = 3600
+// Улучшен нейминг и отображение константы
+
+
+4.
+is_not_optimize = df.sum().sum() > 5
+//
+NUM_OF_DUPLICATE_ROWS = 5
+is_optimize = df.sum().sum() < NUM_OF_DUPLICATE_ROWS
+// Вынесено в константу значение количества строк дубликатов, и изменен нейминг предиката
+
+
+5.
+sleep_time.sleep(3)
+//
+DELAY_TIME_SEC = 3
+sleep_time.sleep(DELAY_TIME_SEC)
+// Значение для задержки выполнения программы вынесено в константу
+
+
+6.
+start_date = end_date - timedelta(days=10)
+//
+DATE_INTERVAL_IN_DAYS = 10
+start_date = end_date - timedelta(days=DATE_INTERVAL_IN_DAYS)
+// Интервал вынесен в константу, т.к. может использоваться и в других функциях
+
+
+7, 8.
+q = f"SELECT * FROM pg_users.users"
+//
+TABLE = 'users'
+SCHEMA = 'pg_users'
+q = f"SELECT * FROM {SCHEMA}.{USERS}"
+// Вынес в константы схему и таблицу, теперь можно вынести селект в абстракную функцию
+
+
+9, 10
+cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+//
+RANDOM_SEED = 42
+NUM_SPLITS = 3
+cv = StratifiedKFold(n_splits=NUM_SPLITS, shuffle=True, random_state=RANDOM_SEED)
+// Вынес количество разбиений и константу генератора случайных чисел в константы,
+   для удобства изменения и переиспользования
+
+
+11.
+total_weekly_commission = total_weekly_revenue * 0.4
+//
+SYSTEM_COMMISSION = 0.4
+total_weekly_commission = total_weekly_revenue * SYSTEM_COMMISSION
+// Вынес системную комиссию в константу
+
+
+12.
+diff = df_difference.loc[df_difference[i] > 10][['date', i]]
+//
+DAY_CRITICAL_DIFFERENCE_PERCENT = 10
+diff = df_difference.loc[df_difference[i] > DAY_CRITICAL_DIFFERENCE_PERCENT][['date', i]]
+// Вынес значение критического расхождения днавных данных в константу
+
+
