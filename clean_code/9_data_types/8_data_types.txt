@@ -1,0 +1,112 @@
+1.
+diff_percentage = ((source_data[cols] -
+                   target_data[ols]) /
+                   source_data[cols] * 100)
+//
+try:
+    diff_percentage = ((source_data[cols] -
+                       target_data[cols]) /
+                       source_data[cols] * 100)
+except NameError as err:
+    raise
+// NameError а не ZeroDivisionError - потому что датафрейм сорс или таргет могут вообще не прийти
+// А в случае пустого датафрейма - созданный будет с НаН значениями
+
+
+2.
+difference_df = (abs(source_data[cols] -
+                 compared_data[cols]) /
+                 source_data[cols] * 100)
+//
+try:
+difference_df = (abs(source_data[cols] -
+                 compared_data[cols]) /
+                 source_data[cols] * 100)
+except NameError as err:
+    logger.info('error!')
+    alert.send('alarm!')
+    raise
+// Тот же случай что и выше, если один из датафреймов не придет - должно падать контролируемое исключение,
+// и как минимум фиксироваться логгером и сообщением в систему алертов
+
+
+3.
+percent = round(differences[date][col]['percent'])
+//
+percent = round(differences[date][col]['percent'], 2)
+//  Лучше округлить до двух знаков
+
+
+4, 5, 6, 7.
+df['region_id'] = df['region_id'].astype(int)
+df['language_id'] = df['language_id'].astype(int)
+df['event_id'] = df['event_id'].astype(int)
+df['metric_id'] = df['metric_id'].astype(int)
+//
+def transform_to_int_datatype(df):
+    df['currency_code'] = df['currency_code'].astype(int)
+    df['date'] = df['date'].astype(str)
+    df['event_id'] = df['event_id'].astype(int)
+    df['metric_id'] = df['metric_id'].astype(int)
+// Вынес преобразования из разных частей программы в явную отдельную функцию
+
+
+8.
+start_date = end_date - timedelta(days=7)
+//
+INTERVAL_IN_DAYS = 7
+start_date = end_date - timedelta(days=INTERVAL_IN_DAYS)
+// Вынес в константу недельный интервал, чтобы избавится от магических чисел.
+// Хотя и понятно, что такое 7 - но явное наименование увеличивает скорость чтения и понимение кода.
+// Так же интервал может изменится - и удобно иметь доступ до него из константы
+
+
+9.
+df = pd.read_sql('select region_id from regions')
+//
+df['region_id'].astype(int)
+//
+Привел айди региона к целочисленному типу, потому что из БД может прийти флоат, а зачем айдишник флоатом
+
+
+10.
+tz = timezone(timedelta(hours=3))
+//
+MSK_TZ = timedelta(hours=3)
+tz = timezone(MSK_TZ)
+// Вынес в константу часовой пояс, для удобства передачи в другие функции.
+
+
+11.
+if 0 < cnt < 30000:
+    ..логика
+elif cnt >= 30000:
+    ..логика
+//
+DAILY_VIEWS_PLAN = 30000
+views_amount_sum_per_day = get_views_sum_by_day()
+if views_amount_sum_per_day >= DAILY_VIEWS_PLAN:
+    логика успех
+    return
+логика провал
+//
+Улучшен нейминг переменной, уменьшена цикломатическая сложность удалением ветвления
+
+
+12.
+def get_log_error_data():
+    with open('./log.txt', 'r') as file:
+            log_data = file.read()
+            return log_data
+//
+FILE_PATH = './log.txt'
+file_exists = os.path.exists(FILE_PATH)
+
+def get_log_error_data():
+    if file_exists:
+        with open(FILE_PATH, 'r') as file:
+            data = file.read()
+            return data
+    raise FileNotFoundError
+//Вынес пути к файлу логгера в отдельную константу, и добавил обработку исключения
+
