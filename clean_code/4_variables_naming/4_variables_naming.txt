@@ -42,9 +42,9 @@ sheet_id = df_managers[df_managers['manager'] == manager].reset_index()
 
 
 8.
-time = pd.read_sql(q, URI_TARGET_DISTR_LA_LF)
+time = pd.read_sql(q, TARGET_DSN)
 //
-start_datetime = pd.read_sql(q, URI_TARGET_DISTR_LA_LF)
+start_datetime = pd.read_sql(q, TARGET_DSN)
 
 
 9.

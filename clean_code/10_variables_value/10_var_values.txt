@@ -1,0 +1,138 @@
+1.
+def get_flat_rating(df):
+    // Вынес счетчик в начало функции, перед непосредственным началом наполнения
+    flat_rating = 0
+    try:
+        # логика расчета и наполнения счетчика рейтинг
+        ...
+    return flat_rating
+
+
+
+2.
+def avito_etl(database: Database) -> None:
+    """Pipeline avito parsing -> transform raw data -> add prepared data to database"""
+    logger.info("PARSING HAS BEEN STARTED")
+    parser = AvitoParser(headless=cfg.SELENIUM_HEADLESS)
+    total_parsed_ads = parser.start_parser(count_url=cfg.PAGES_TO_PARSE_NUM)
+    logger.info("PARSING HAS BEEN SUCCESSFULLY COMPLETED")
+    JsonWriter(data).save()
+
+    // Обновляю значение переменной
+    parser = None
+
+
+3.
+logger.info("DATA PREPARING HAS BEEN STARTED")
+transformed_df = DataHandler().start_transform(data)
+logger.info("PARSED DATA HAS BEEN SUCCESSFULLY PREPARED")
+CsvWriter(transformed_df).save()
+
+// Обновляю значение переменной
+transformed_df = None
+
+
+4.
+for obj in flat_properties_list:
+    column, value = obj.split(":")[0], obj.split(":")[1]
+    flat_features[column] = value.strip()
+    // Скинул значения переменных column и value, для контроля и переиспользования
+column, value = None, None
+
+
+5.
+self._auth()
+self._set_filters()
+pages_to_parse = self._get_pages(count_url=count_url)
+self._parse_objects(pages_to_parse)
+// Скинул значение переменной хранящей объекты для парсинга pages_to_parse
+pages_to_parse = []
+
+
+6.
+model_retrain = ModelRetraining(database=db, save_path=cfg.PATH_TO_SAVE_MODEL)
+model_retrain.start_model_retraining()
+// Скинул объект из переменной, чтобы случайно не продолжить его использовать
+model_retrain = None
+
+
+7, 8.
+async def dictionary(message: Message):
+    // Вынес BATCH_SIZE как константу в начало функции
+    BATCH_SIZE = 100
+    conn = await asyncpg.connect(config.PG_CON)
+    total_words = await conn.fetch("SELECT id, word, translation FROM words")
+    // Спустил инициализацию msg непосредственно перед логикой ее наполнени
+    msg = ''
+    # Логика наполнения сообщения msg
+
+
+9.
+random_num_1_to_3 = random.randint(1, 3)
+if random_num_1_to_3 != 3:
+    return Word(*word)
+else:
+    assert random_num_1_to_3 == 3
+    // Добавил утверждение, что логика выполняется только при random_num_1_to_3 == 3
+    async with db(config.PG_CON) as conn:
+        force_word = await conn.get_force_word(user_id=user_id)
+
+
+10.
+async def get_score(message: Message):
+    conn = await asyncpg.connect(config.PG_CON)
+    is_user_seen_word = 0
+
+    #Логика
+
+    // Скидываю переменную флаг, чтобы не испольовать ее случайно еще раз
+    is_user_seen_word = None
+
+
+// следующие три примера практически идентичны - скинул объект из переменной,
+// для явного указания завершения работы с этим объектом, и не возможности не корректного использования ниже
+11.
+extractor = DataExtractor(source_conn=source_dsn, target_conn=target_dsn,
+                          source_sql=source_sql, target_sql=target_sql)
+extractor.run()
+
+//Обнулил объект в переменной extractor
+extractor = None
+
+
+12.
+transformer = DataTransformer(dataframe)
+transformer.run_transform()
+
+//Обнулил объект в переменной transformer
+transformer = None
+
+
+13.
+loader = DataLoader(dsn)
+loader.upload(dataframe)
+
+//Обнулил объект в переменной loader
+loader = None
+
+
+14.
+tz = timezone(timedelta(hours=3))
+if datetime.now(tz).time() < time(hour=8):
+    ....
+// инициализировал переменную ближе к условию, где она используется
+
+
+15.
+if parts:
+    for part in parts:
+        ...
+        sleep_time.sleep(3)
+else:
+    ...
+    sleep_time.sleep(3)
+
+// Вынес время явного ожидания в константу, для более удобного использования и контроля в разных частях кода
+SLEEP_TIME_SEC = 3
+sleep_time.sleep(SLEEP_TIME_SEC)
+
