@@ -1,0 +1,253 @@
+
+1.
+RAND_TIME = random.uniform(1, 2.5)
+
+class AvitoParser:
+    def __init__(self, headless: bool):
+        ...
+        self.rand_time = RAND_TIME
+
+// Перенес переменную rand_time из глобальной инициализации в переменную класса
+
+class AvitoParser:
+    def __init__(self, headless: bool):
+        ...
+        self.rand_time =  random.uniform(1, 2.5)
+
+
+2.
+class AvitoParser:
+    def __init__(self, headless: bool):
+        """Create and launch selenium webdriver object"""
+        self.url = "https://www.avito.ru/sankt-peterburg/kvartiry/prodam/vtorichka"
+        self.options = webdriver.ChromeOptions()
+        ....
+
+//  Вынес инициализацию браузера в отдельную функцию из инициализации класса
+
+class AvitoParser:
+    def __init__(self, headless: bool):
+        """Create and launch selenium webdriver object"""
+        ....
+
+    def _run_avito_start_page(self):
+        self.url = "https://www.avito.ru/sankt-peterburg/kvartiry/prodam/vtorichka"
+        self.options = webdriver.ChromeOptions()
+
+
+3.
+if os.path.exists(PATH_TO_LAST_MODEL):
+    MODEL_PATH = PATH_TO_LAST_MODEL
+    logger.info(f'LAST MODEL SELECTED')
+else:
+    MODEL_PATH = PATH_TO_INIT_MODEL
+    logger.info(f'INIT MODEL SELECTED')
+
+// Вынес проверку наличия файла модели в отдельную функцию, из глобальной области видимости в локальную,
+тем самым снизил цикломатическую сложность за счет сокращения условий ветвления
+
+def get_model_path(last_model_path, init_model_path):
+    if os.path.exists(last_model_path):
+        logger.info(f'LAST MODEL SELECTED')
+        return last_model_path
+    logger.info(f'INIT MODEL SELECTED')
+    return init_model_path
+
+
+4.
+MODEL = pickle.load(open(MODEL_PATH, "rb"))
+
+//
+Загрузка модели так же перемещена в локальную область видимости функции загрузки модели
+
+def get_model(path):
+    model = pickle.load(open(path, "rb"))
+    return model
+
+
+5.
+class ModelRetraining:
+    def __init__(self, database: Database, save_path: str):
+        self.db = database
+        self.save_path = save_path
+
+// Вынес путь для сохранения модели из переменной класса в отдельную функцию,
+где путь для сохранения находится в локальной области видимости функции
+
+class ModelRetraining:
+    def __init__(self, database: Database, save_path: str):
+        self.db = database
+
+    def _save_model(model, output_path):
+        pickle.dump(model, open(output_path, 'wb'))
+
+
+6.
+class DataExtractor:
+    def __init__(self, connection: str, sql_query: str):
+        self.connection = connection
+        self.sql = sql_query
+
+// Сделал переменные класса приватными
+
+class DataExtractor:
+    def __init__(self, connection: str, sql_query: str):
+        self._connection = connection
+        self._sql = sql_query
+
+
+7.
+class Optimizer:
+    def __init__(self, schema: str, table: str, dates: list):
+        self.shards = settings.SHARDS
+        self.schema = schema
+        self.table = table
+        self.dates = dates
+
+// Сделал переменные класса приватными, для ограничения доступа снаружи класса
+
+class Optimizer:
+    def __init__(self, schema: str, table: str, dates: list):
+        self._shards = settings.SHARDS
+        self._schema = schema
+        self._table = table
+        self._dates = dates
+
+
+8.
+def message_format(self, differences: dict) -> str:
+        for date in differences.keys():
+            self.parsed_msg += f"<b>{date}</b>\n"
+
+// Перенес переменную "сообщение для отправки" в локальную область видимости функции из атрибутов класса
+
+def message_format(self, differences: dict) -> str:
+        parsed_msg = ''
+        for date in differences.keys():
+            parsed_msg += f"<b>{date}</b>\n"
+
+
+9.
+class DataComparer:
+    def __init__(self, data: Data):
+        self.columns = data.columns
+        self.source_schema = data.source_schema
+        self.target_schema = data.target_schema
+        self.source_table = data.source_table
+        self.target_table = data.target_table
+
+// Так же атрибуты класса сделал приватные
+
+class DataComparer:
+    def __init__(self, data: Data):
+        self._columns = data.columns
+        self._source_schema = data.source_schema
+        self._target_schema = data.target_schema
+        self._source_table = data.source_table
+        self._target_table = data.target_table
+
+
+10.
+async def alphabet_get_wrong_translation(true_word: str) -> List[tuple]:
+    conn = await asyncpg.connect(config.PG_CON)
+    wrong_translation_words = await CONN.fetch(...)
+
+// Вынес создание подключения в отдельную функцию
+
+def init_connection():
+    conn = await asyncpg.connect(config.PG_CON)
+    return conn
+
+async def alphabet_get_wrong_translation(true_word: str) -> List[tuple]:
+    conn = await init_connection()
+    wrong_translation_words = await conn.fetch(...)
+    conn.close()
+
+
+11.
+class Loader:
+    def __init__(self, dsn: str, flow_name: str, logger):
+        self.dsn = dsn
+        self.flow_name = flow_name
+        self.log = logger
+        self.tg = TelegramNotifier(TOKEN, CHAT_ID)
+
+// Сделал приватными атрибуты класса
+
+class Loader:
+    def __init__(self, dsn: str, flow_name: str, logger):
+        self._dsn = dsn
+        self._flow_name = flow_name
+        self._log = logger
+        self._tg = TelegramNotifier(TOKEN, CHAT_ID)
+
+
+12, 13.
+class Database:
+    def __init__(self, dbname: str):
+        self.dbname = dbname
+        self.conn = sqlite3.connect(self.dbname)
+        self.cursor = self.conn.cursor()
+
+
+// Вынес переменные создания соединения и курсора в локальную область видимости конкретных функций
+
+class Database:
+    def __init__(self, dbname: str):
+        self._dsn = dsn
+
+    def get_all_flats(self, sql):
+        with sqlite3.connect(self.dbname) as conn:
+            with self.conn.cursor() as curr:
+                res = curr.execute(sql)
+                ...
+
+    def set_is_ad_shown(self, item_id, table="items"):
+        with sqlite3.connect(self.dbname) as conn:
+            with self.conn.cursor() as curr:
+                curr.execute(query)
+                conn.commit()
+
+
+14.
+...
+ def __init__():
+    ...
+    self.differences_data = defaultdict(dict)
+ def compare(self, df: pd.DataFrame) -> None:
+        for col in range(len(self.cols)):
+        ....
+            differences[date][column_name] = {
+                ...
+            }
+
+// Вынес создание словаря в локальную область видимости функции
+...
+ def __init__():
+    ...
+ def compare(self, df: pd.DataFrame) -> None:
+        differences_data = defaultdict(dict)
+        for col in range(len(self.cols)):
+        ....
+            differences[date][column_name] = {
+                ...
+            }
+
+
+15.
+class DataHandler:
+    def __init__(self, raw_data):
+        self.main_dataframe = pd.DataFrame()
+
+    def _create_df(self, raw_data: list) -> pd.DataFrame:
+        self.main_dataframe(columns=cols).append(raw_data)[cols]
+
+// Вынес создание датафрейма в локальную область видимости функции, отвечающую за создание датафрейма
+
+class DataHandler:
+    def _create_df(self, raw_data: list) -> pd.DataFrame:
+        df = pd.DataFrame(columns=cols).append(raw_data)[cols]
+
+
+
+
