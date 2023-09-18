@@ -1,0 +1,130 @@
+
+1.
+user = []
+    ...
+    for field in fields:
+        username = field['username']
+        created_at = field['created_at']
+        user.append(col_name)
+        user.append(created_at)
+
+// Модифицировал структуру данных для хранения юзера из массива в датакласс, чтобы исключить обращение по индексу
+
+@dataclass
+class User:
+    username: str
+    created_at: datetime.datetime
+
+
+2.
+data = []
+... # парсинг параметров
+data.append(script_name)
+data.append(link)
+data.append(schema)
+data.append(table)
+data.append(columns)
+
+// Более явная и безопасная структура - датакласс, где к элементам можно обращаеться как к именованым аргументам
+
+@dataclass
+class DataForComparison:
+    script_name: str
+    link: str
+    schema: str
+    table: str
+    columns: List[str]
+
+
+3.
+class AvitoParser:
+    def __init__(self, headless: bool):
+        ...
+        self.storage = []
+    ...
+    def _parse_objects(self, pages: list) -> None:
+        for obj in range(len(links)):
+            ...
+            if data is not None:
+                self.storage.append(data)
+
+// Изменил структуру данных для хранения объектов-квартир с массива на очередь, хотя конкретно в данном случае это не обязательно,
+// так как массив используется для последущего обращения как к последовательной структуре (перебирается в цикле for)
+// Модификация полезна для дополнительной защиты от последующего изменения логики и для более явного указания требований к структуре данных
+
+import queue
+
+class AvitoParser:
+    def __init__(self, headless: bool):
+        ...
+        self.storage = queue.Queue()
+    ...
+    def _parse_objects(self, pages: list) -> None:
+        for obj in range(len(links)):
+            ...
+            if data is not None:
+                self.storage.put(data)
+
+
+4.
+def get_users():
+    try:
+        users_list = get_users(access_token)
+    except:
+        users_list = []
+        logger.info('Users were not received!')
+
+// Изменил исключительное поведение с присвоения пустого списка на None, чтобы явно указать на не желательное поведение,
+// а так же для исключения возможности далее по коду обращаться к пустому списку
+
+def get_users():
+    try:
+        users_list = get_users(access_token)
+    except:
+        users_list = None
+        logger.info('Users were not received!')
+
+
+5.
+def send_message(df, chat):
+    for err in df.values:
+        msg = (f'<b>{err[0]}</b>' + '\n\n'
+                + 'Юзер:'+ str(err[1]) + '\n'
+                + 'Описание:' + str(err[2]) + '\n'
+                + 'Дата:' + f'{err[3]}' + '\n'
+    ...
+
+
+// Произведен рефакторинг функции send_message. Реализован дополнительный класс Error для исключения обращения по индексам к списку
+// и созданы дополнительные функции, отвечающие за создание сообщения и парсинг объектов
+
+class Error(NamedTuple):
+    error_name : str
+    username : str
+    description: str
+    date: datetime.date
+
+
+def parse_errors(df):
+    error = Error()
+    for err in df.values:
+        error.error_name = err[0]
+        error.username = err[1]
+        error.description = err[2]
+        error.date = err[3]
+    return errors
+
+
+def create_message(error: Error) -> str:
+    msg = (f'<b>{error.error_name}</b>' + '\n\n'
+            + 'Юзер:'+ str(error.username) + '\n'
+            + 'Описание:' + str(error.description) + '\n'
+            + 'Дата:' + f'{error.date}' + '\n'
+
+
+def send_message(msg):
+    tg.send(msg)
+
+
+
+
