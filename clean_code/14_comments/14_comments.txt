@@ -1,0 +1,264 @@
+
+Явно уместно писать комментарии для работы классов и функций, даже если наименование хорошо продуманное
+ПО причине того, что некоторые сторонние сервисы забирают докстринг себе в автоматически-генерируемую документацию
+
+
+1.
+class AvitoParser:
+    def __init__(self, headless: bool):
+        """Create and launch selenium webdriver object"""
+        self.url = "https://www.avito.ru/sankt-peterburg/kvartiry/prodam/vtorichka"
+        self.options = webdriver.ChromeOptions()
+        ...
+
+// Добавил докстринг для класса
+
+class AvitoParser:
+    """
+    A class for parsing Avito listing data.
+
+    This class uses Selenium to scrape data from Avito's apartment listings.
+    It allows users to authenticate, set filters, and collect information about apartments for sale,
+    including details about the apartment itself, the building, and location.
+    """
+    def __init__(self, headless: bool):
+        """Create and launch selenium webdriver object"""
+        self.url = "https://www.avito.ru/sankt-peterburg/kvartiry/prodam/vtorichka"
+        self.options = webdriver.ChromeOptions()
+        ...
+
+
+2.
+class DataHandler:
+    def __init__(self, raw_data):
+        self.data = raw_data
+
+// Добавил докстринг для класса-обработчика
+class DataHandler:
+    """
+    A class for handling and transforming raw data obtained from the AvitoParser.
+
+    This class contains methods to transform and clean data from Avito apartment listings
+    and prepare it for further analysis. It performs data cleaning, column renaming, and
+    fills missing values in the dataset.
+    """
+    def __init__(self, raw_data):
+        self.data = raw_data
+
+
+3, 4.
+class JsonWriter:
+    def __init__(self, data: list) -> None:
+        self.data = data
+    ...
+
+class CsvWriter:
+    def __init__(self, df: pd.DataFrame) -> None:
+        self.dataframe = df
+    ...
+
+// Добавил докстринги
+
+class JsonWriter:
+    """
+    A class for writing data to a JSON file.
+
+    This class is responsible for saving data to a JSON file. It takes a list of data
+    as input and writes it to the specified JSON file.
+    """
+    def __init__(self, data: list) -> None:
+        self.data = data
+    ...
+
+
+class CsvWriter:
+    """
+    A class for writing data to a CSV file.
+
+    This class is responsible for saving a DataFrame to a CSV file. It takes a DataFrame
+    as input and writes it to the specified CSV file.
+    """
+
+    def __init__(self, df: pd.DataFrame) -> None:
+        self.dataframe = df
+    ...
+
+
+5.
+def get_from_env(key):
+    dotenv_path = join(dirname(__file__), ".env")
+    load_dotenv(dotenv_path)
+    return os.environ.get(key)
+
+// Добавил докстринг для функции получения переменных окружения
+
+def get_from_env(key):
+    """
+    Get environment variable values by the specified key from .env file"
+    """
+    dotenv_path = join(dirname(__file__), ".env")
+    load_dotenv(dotenv_path)
+    return os.environ.get(key)
+
+
+6.
+async def get_word() -> RandomWord:
+    conn = await asyncpg.connect(config.PG_CON)
+    word = await conn.fetchrow(
+                            f"""SELECT w.id, w.word, w.translation
+                                FROM words w ORDER BY random() LIMIT 1
+                            """)
+    await conn.close()
+    return RandomWord(*word)
+
+// Добавил докстинг функции
+
+async def get_word() -> RandomWord:
+    """Receives a random word from database"""
+    conn = await asyncpg.connect(config.PG_CON)
+    word = await conn.fetchrow(
+                            f"""SELECT w.id, w.word, w.translation
+                                FROM words w ORDER BY random() LIMIT 1
+                            """)
+    await conn.close()
+    return RandomWord(*word)
+
+
+7.
+async def check_answer(user_answer, correct_answer, message):
+    if user_answer == correct_answer:
+        await message.answer("Вы выбрали правильный ответ!")
+    else:
+        await message.answer(f"Неправильный ответ! Правильный ответ:\n{correct_answer}")
+
+// Добавил докстинг функции
+
+async def check_answer(user_answer, correct_answer, message):
+    """Checks is the user answer-translation correct"""
+    if user_answer == correct_answer:
+        await message.answer("Вы выбрали правильный ответ!")
+    else:
+        await message.answer(f"Неправильный ответ! Правильный ответ:\n{correct_answer}")
+
+
+// Где стоит комментарии убрать
+
+
+1, 2.
+def _parse_objects(self, pages: list) -> None:
+    """Start parsing from first page to given "MAX_URL_LINKS" page"""
+    for page_url in pages:
+        ...
+
+// Этот комментарий можно убрать
+        # Get links on objects from page
+        links = self.driver.find_elements(By.CLASS_NAME, "iva-item-root-_lk9K")
+
+        for obj in range(len(links)):
+            logger.info(F"COLLECTING {obj} LINK")
+            try:
+                links[obj].click()
+                time.sleep(RAND_TIME)
+                self.driver.switch_to.window(self.driver.window_handles[1])
+                data = self._handle_flat_features() # Start collection data from object
+                if data is not None:
+                    self.storage.append(data)
+
+// Убрал комментарий у получения ссылок (links) и добавить функцию получения ссылок
+// Переименовал наименование функции self._handle_flat_features() -> _collect_flat_features, название взял из комментария
+
+def _get_links() -> list:
+    links = self.driver.find_elements(By.CLASS_NAME, "iva-item-root-_lk9K")
+    return links
+
+def _parse_objects(self, pages: list) -> None:
+    """Start parsing from first page to given "MAX_URL_LINKS" page"""
+    for page_url in pages:
+        ...
+
+        links = self._get_links()
+
+        for obj in range(len(links)):
+            logger.info(F"COLLECTING {obj} LINK")
+            try:
+                links[obj].click()
+                time.sleep(RAND_TIME)
+                self.driver.switch_to.window(self.driver.window_handles[1])
+                data = self._collect_flat_features()
+                if data is not None:
+                    self.storage.append(data)
+
+
+3.
+def update_flat_rating(self, estimated_df: pd.DataFrame, table: str = "items"):
+    try:
+        estimated_df.to_sql('temp_table', self.conn, if_exists='replace')  # create temp table with rating
+        ...
+
+// Перенес комментарий в название временной таблицы
+
+def update_flat_rating(self, estimated_df: pd.DataFrame, table: str = "items"):
+    try:
+        estimated_df.to_sql('temp_table_flat_rating', self.conn, if_exists='replace')
+        ...
+
+
+4.
+
+db.update_shown_item(item_id)  # Set DB.shown = 1 for sent item
+
+// Исправил название функции - отпала необходимость в комментарии
+
+db.set_is_ad_shown(item_id)
+
+
+5.
+def initialize_database(path_to_db):
+    conn = sqlite3.connect(path_to_db)
+    cursor = conn.cursor()
+
+    query = """
+            --DROP TABLE IF EXISTS items;
+            CREATE TABLE IF NOT EXISTS items(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            rating REAL,            time TEXT,
+            price INTEGER,          sqmeter_price INTEGER,
+            address TEXT,           subway TEXT,
+            rooms INTEGER,          minutes_to_subway INTEGER,
+            total_area REAL,
+            balcony TEXT,           type_of_renovation TEXT,
+            type_of_house TEXT,     link TEXT UNIQUE ON CONFLICT REPLACE,
+            cur_floor INTEGER,      cnt_floors INTEGER,
+            shown INTEGER);"""
+    conn.execute(query)
+    #cursor.executescript(query)  # recreated table for test
+    conn.commit()
+
+
+// Вынес пересоздание таблицы в отдельную функцию, вместо комментирования/раскомментирования строк запроса.
+// А значит теперь дополнительный комментарий не требуется
+
+
+def initialize_database(path_to_db):
+    conn = sqlite3.connect(path_to_db)
+
+    query = """
+            CREATE TABLE IF NOT EXISTS items(
+            ...
+            );"""
+
+    conn.execute(query)
+    conn.commit()
+
+
+def recreate_database(path_to_db):
+    conn = sqlite3.connect(path_to_db)
+    cursor = conn.cursor()
+
+    query = """
+            DROP TABLE IF EXISTS items;
+            CREATE TABLE IF NOT EXISTS items(
+            ...
+            );"""
+    cursor.executescript(query)
+    conn.commit()
