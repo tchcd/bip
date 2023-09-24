@@ -20,22 +20,22 @@ class Loader:
 
 
 3.
-class Optimizer:
+class DataHandler:
     def __init__(self):
         ...
-        self.partition_mode = self.get_partition_mode()
+        self.get_part_mode = self.get_part_mode()
 
 // Можно дописать комментарий по п1. Информативный комментарий и п.3 Прояснение.
 // Хотя лучше кажется будет назвать переменную get_table_partition_mode либо month_or_day_part_mode
 
-class Optimizer:
+class DataHandler:
     def __init__(self):
         ...
-        self.partition_mode = self.get_partition_mode() # Get partition mode for current table in month or day terms
+        self.get_part_mode = self.get_part_mode() # Get mode for current table in month or day terms
 
 
 4, 5.
-if datetime.now(tz).time() < time(hour=10):
+if datetime.now().time() < time(hour=10):
     sys.exit(0)
 
 // Добавлены Информативные комментарии по п.1
