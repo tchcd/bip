@@ -1,0 +1,114 @@
+
+
+1.
+// Дописал комментарий для регулярного выражения по п.1, п.2 и п.3. Он здесь явно полезен.
+
+# Extracts the last three characters from each IP address in the 'ip_address' column.
+processed_ip = df['ip_address'].str.extract('\w*(.{3})')
+
+
+2.
+// Добавил todo
+// комментарий над нереализованным методом
+class Loader:
+    def __init__(self):
+        ...
+
+    #TODO
+    def upsert(self) -> None:
+        raise NotImplementedMethod
+
+
+3.
+class Optimizer:
+    def __init__(self):
+        ...
+        self.partition_mode = self.get_partition_mode()
+
+// Можно дописать комментарий по п1. Информативный комментарий и п.3 Прояснение.
+// Хотя лучше кажется будет назвать переменную get_table_partition_mode либо month_or_day_part_mode
+
+class Optimizer:
+    def __init__(self):
+        ...
+        self.partition_mode = self.get_partition_mode() # Get partition mode for current table in month or day terms
+
+
+4, 5.
+if datetime.now(tz).time() < time(hour=10):
+    sys.exit(0)
+
+// Добавлены Информативные комментарии по п.1
+// Хотя лучше разделить функцию на 2. 1- проверка текущего времени is_current_time_lower() и
+// 2 - функция escape_jenkins_task() c правилом остановки скрипта. Такие функции будут следовать правилу
+// разделения ответственности и комментарии не понадобятся
+
+if datetime.now(tz).time() < time(hour=8):
+    # 'Script schedule 10:00 - 23:59 Europe/MSK
+    sys.exit(0)     # Exit status for Jenkins tasks
+
+
+6.
+// Добавил комментарий по п.1 Информативные комментарии и п.4 Предупреждения о последствиях
+class AvitoParser:
+    def __init__(self, headless: bool):
+        ...
+        self.headless = headless
+
+        # Disables the browser's visual display.
+        # To work on the server, it is important to set it to True, to disable the browser
+        if self.headless:
+            self.options.headless = True
+            self.options.add_argument("--no-sandbox")
+
+
+7, 8, 9.
+// Добавил комментарии по п.1 Информативные комментарии для кажого из токена и чатов телеграм бота,
+// чтобы в удобочитаемом формате было понятно, в какой момент в какой чат для какого из сегментов юзеров отправляется сообщение.
+
+TG_TOKEN_BASE = "..." # @botname
+TG_TOKEN_SPARE = "...." # @botname, used in case the base bot is not available
+
+# chats
+TG_CHAT_1 = "..." # chat for user segment No. 1
+TG_CHAT_2 = "..." # chat for user segment No. 2
+TG_CHAT_3 = "..." # chat for user segment No. 3
+
+
+10.
+// Добавил комментарий по п.5 Усиление для указания о важности преобразования дейттайма в строки
+@dataclass
+class WordHistoryAttempt:
+    id: int
+    user_id: int
+    word: str
+    last_attempt: datetime
+    next_attempt: datetime
+    interval: int
+    force_repeat: int
+
+    # Converts datetime objects to string format for proper processing later
+    def __post_init__(self):
+        if isinstance(self.last_attempt, str):
+            self.last_attempt = datetime.strptime(self.last_attempt, "%Y-%m-%d %H:%M:%S")
+        if isinstance(self.next_attempt, str):
+            self.next_attempt = datetime.strptime(self.next_attempt, "%Y-%m-%d %H:%M:%S")
+
+
+11.
+// Добавил докстринг по п.1 Информативные комментарии
+def start_parser(self, count_url: cfg.PAGES_TO_PARSE_NUM) -> list:
+    """
+    Run the parsing process for a specified number of ads and returns a list of parsed objects.
+    """
+    try:
+        self._auth()
+        ...
+
+12.
+// Добавил ифнмормативный комментарий п1., для более ясного понимания, что находится в переменной time после сплита
+def _time_changer(time: list) -> str:
+    """This function converts time values"""    time = time.split('·')[1] # get time in format %H:%M:%S
+
+
+
