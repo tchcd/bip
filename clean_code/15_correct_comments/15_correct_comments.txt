@@ -10,12 +10,12 @@ processed_ip = df['ip_address'].str.extract('\w*(.{3})')
 2.
 // Добавил todo
 // комментарий над нереализованным методом
-class Loader:
+class DBConnector:
     def __init__(self):
         ...
 
     #TODO
-    def upsert(self) -> None:
+    def close(self) -> None:
         raise NotImplementedMethod
 
 
