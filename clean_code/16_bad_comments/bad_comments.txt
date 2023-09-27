@@ -1,0 +1,135 @@
+
+
+1.
+class DataHandler:
+    # def __init__(self, raw_data):
+    #    self.data = raw_data
+
+    def _create_df(self, raw_data: list) -> pd.DataFrame:
+
+// Убрал закомментированные строки.
+
+class DataHandler:
+    def _create_df(self, raw_data: list) -> pd.DataFrame:
+
+
+2.
+// Можно удалить очевидный комментарий для функции по п.7. Избыточные комментарии
+def _transform_time(self, df: pd.DataFrame) -> pd.DataFrame:
+->  """Makes correct time column"""
+    ...
+    return df
+
+
+3.
+// Можно удалить очевидный комментарий для функции по п.7. Избыточные комментарии
+def _transfrom_subway(self, df: pd.DataFrame) -> pd.DataFrame:
+->  """Remove NaN-values from subway and distance_to_subway columns, and makes a correct distance column"""
+    ...
+    return df
+
+
+4.
+// Можно удалить очевидный комментарий для функции по п.7. Избыточные комментарии
+def _transform_area(self, df):
+->  """Makes correct area column"""
+    ...
+    return df
+
+
+5.
+// Можно удалить очевидный комментарий для функции по п.7. Избыточные комментарии
+def _transform_floors(self, df: pd.DataFrame) -> pd.DataFrame:
+->  """Makes correct floors column"""
+    ...
+    return df
+
+
+6.
+// Можно удалить очевидный комментарий для функции по п.7. Избыточные комментарии
+def _drop_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+->  """Drops unused columns"""
+    ...
+    return df
+
+
+7.
+// Можно удалить очевидный комментарий для функции по п.7. Избыточные комментарии
+def _fill_nan(self, df: pd.DataFrame) -> pd.DataFrame:
+->  """Fills rows witn NaN"""
+    ...
+    return df
+
+
+8, 9, 10, 11, 12.
+// Несколько примеров комментариев, которые могут быть уделаны по п.7. Избыточные комментарии.
+// Переменные содержат информацию о своем содержании, полезно добавить аннотацию типов
+// И добавить больше информации в докстринг, о том, что функции ниже наполняют словарь с характеристиками квартир
+
+def _handle_flat_features(self):
+    """Collect flat listing properties"""
+    try:
+        time.sleep(RAND_TIME)
+        flat_features = {}
+
+->      # Get subway
+        flat_features["subway"] = self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "#app > div > div.index-root-nb9Lx.index-responsive-yh9uW.index-page_default-RyjXj > div > div.style-item-view-PCYlM.react-exp > div.style-item-view-content-SDgKX > div.style-item-view-content-left-bb5Ih > div.style-item-view-main-tKI1S.js-item-view-main.style-item-min-height-TJwyJ > div.style-item-view-block-SEFaY.style-item-view-map-rppAn.style-opened-bPigk.style-new-style-iX7zV > div > div.style-item-map-location-wbfMT > div.style-item-address-KooqC > div > div > span > span:nth-child(1) > span:nth-child(2)"
+        )[0].text
+
+->      # Get distance_to_subway_minutes
+        distance_to_subway_minutes = self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "#app > div > div.index-root-nb9Lx.index-responsive-yh9uW.index-page_default-RyjXj > div > div.style-item-view-PCYlM.react-exp > div.style-item-view-content-SDgKX > div.style-item-view-content-left-bb5Ih > div.style-item-view-main-tKI1S.js-item-view-main.style-item-min-height-TJwyJ > div.style-item-view-block-SEFaY.style-item-view-map-rppAn.style-opened-bPigk.style-new-style-iX7zV > div > div.style-item-map-location-wbfMT > div.style-item-address-KooqC > div > div > span > span:nth-child(1) > span.style-item-address-georeferences-item-interval-ujKs2")
+        flat_features["distance_to_subway_minutes"] = int(re.findall("(\d+)", distance_to_subway_minutes[0].text)[-1])
+
+->      # Get price
+        flat_features["price"] = int(self.driver.find_elements(
+            By.CLASS_NAME, "style-item-price-text-_w822")[0].text.replace(" ",""))
+
+->      # Get address
+        address = self.driver.find_element(
+            By.CLASS_NAME, "style-item-address__string-wt61A"
+        ).text
+        flat_features["address"] = address
+
+->      # Get time
+        flat_features["time"] = self.driver.find_element(
+            By.CLASS_NAME, "style-item-footer-Ufxh_"
+        ).text
+
+
+13.
+// Так же избыточный комментарий по п.7. - можно убрать
+def _parse_objects(self, pages: list) -> None:
+        """Start parsing from first page to given "MAX_URL_LINKS" page"""
+        for page_url in pages:
+           ....
+->          # Get links on objects from page
+            links = self.driver.find_elements(By.CLASS_NAME, "iva-item-root-_lk9K")
+
+
+14.
+// Достаточно переименовать переменную и можно убирать комментарий
+default_interval = 3600  # 1 hour
+//
+default_interval_in_seconds = 3600
+
+
+15.
+Нужно убрать комментарии не несущие дополнительного смысла по п.4. Шум
+
+-> # конфиг
+dsn_config = {'user': '...',    # имя пользователя
+             'pwd': '...',      # пароль
+             'host': '...',     # адрес сервера
+
+conn = config.name_of_conn
+
+-> # присоединяемся
+engine = create_engine(conn)
+
+
+15...
+Ну и на самом деле много мест в коде, где закомментированные участки можно безболезненно удалить
