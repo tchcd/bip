@@ -1,4 +1,3 @@
-
 def sum_of_nums(d: int) -> int:
     if d < 10:
         return d

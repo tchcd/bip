@@ -1,5 +1,3 @@
-
-
 def power(num: int, pow: int) -> int:
     if pow == 1:
         return num
