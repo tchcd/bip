@@ -1,13 +1,10 @@
 def is_palindrome(text: str):
-	if not text:
-		return False
-
 	length = len(text)
 	l = 0
 	r = length - 1
 
 	def compare(l, r):
-		if l == r:
+		if l >= r:
 			return True
 		if text[l] != text[r]:
 			return False
