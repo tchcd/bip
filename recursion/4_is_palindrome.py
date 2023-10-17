@@ -1,4 +1,7 @@
 def is_palindrome(text: str):
+	if not text:
+		return False
+
 	length = len(text)
 	l = 0
 	r = length - 1
