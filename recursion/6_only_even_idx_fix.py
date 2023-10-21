@@ -1,10 +1,8 @@
 def only_even_idx(input_list: list, idx=0):
 	if idx >= len(input_list):
 		return
-
 	if not idx % 2:
 		print(input_list[idx])
-
 	only_even_idx(input_list, idx + 1)
 
 
