@@ -20,3 +20,7 @@ def find_all_files(cur_dir, file_idx, list_of_files):
 
 	elif os.path.isdir(item):
 		find_all_files(item, 0, list_of_files)
+
+
+if __name__ == '__main__':
+	print(init_find_all_files(r"C:\Users\q\Desktop\primer"))
