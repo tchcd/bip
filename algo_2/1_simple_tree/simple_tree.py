@@ -34,16 +34,18 @@ class SimpleTree:
         # ваш код выдачи всех узлов дерева в определённом порядке
         if not self.Root:
             return []
-        nodes = []
         cur_node = self.Root
-        def traversal(node):
-            nonlocal nodes
-            if node.Children:
-                nodes.append(node.NodeValue)
-                for node in node.Children:
-                    traversal(node)
-        traversal(cur_node)
+        nodes = self.get_all_nodes_traversal(cur_node)
         return nodes
+
+    def get_all_nodes_traversal(self, node):
+        nodes = []
+        if node.Children:
+            nodes.append(node)
+            for node in node.Children:
+                nodes.extend(self.get_all_nodes_traversal(node))
+        return nodes
+
 
     def FindNodesByValue(self, val):
         # ваш код поиска узлов по значению
@@ -60,40 +62,37 @@ class SimpleTree:
     def MoveNode(self, OriginalNode: SimpleTreeNode, NewParent: SimpleTreeNode):
         # ваш код перемещения узла вместе с его поддеревом --
         # в качестве дочернего для узла NewParent
-        pass
+        self.DeleteNode(OriginalNode)
+        self.AddChild(NewParent, OriginalNode)
 
     def Count(self):
-        """исправить на кол-во вместо списка"""
-        cnt = []
+        cnt = 0
         if not self.Root:
             return 0
         cur_node = self.Root
         def traversal(node: SimpleTreeNode):
             nonlocal cnt
             if node.Children:
-                cnt.append(node.NodeValue)
-                for children_node in node.Children:
-                    traversal(children_node)
+                cnt += 1
+            for children_node in node.Children:
+                traversal(children_node)
             return cnt
         return traversal(cur_node)
 
 
     def LeafCount(self):
-        """исправить на кол-во вместо списка"""
-        cnt = []
+        cnt = 0
         if not self.Root:
             return 0
         cur_node = self.Root
 
         def traversal(node: SimpleTreeNode):
             nonlocal cnt
-            if node.Children:
-                for children_node in node.Children:
-                    traversal(children_node)
-            else:
-                cnt.append(node.NodeValue)
+            if not node.Children:
+                cnt += 1
+            for children_node in node.Children:
+                traversal(children_node)
             return cnt
-
         return traversal(cur_node)
 
 
@@ -119,5 +118,10 @@ if __name__ == '__main__':
     print(root)
 
     #tree.DeleteNode(n1)
-    print(tree.FindNodesByValue(2))
+    #print(tree.GetAllNodes())
+    #print(tree.Count())
+    #print(tree.LeafCount())
     #print(root)
+
+    tree.MoveNode(n22, n2)
+    print(root)
