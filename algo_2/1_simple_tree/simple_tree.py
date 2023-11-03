@@ -7,11 +7,6 @@ class SimpleTreeNode:
         self.Parent = parent  # родитель или None для корня
         self.Children = []  # список дочерних узлов
 
-    def __str__(self, level=0):
-        ret = "\t" * level + repr(self.NodeValue) + "\n"
-        for child in self.Children:
-            ret += child.__str__(level + 1)
-        return ret
 
 class SimpleTree:
     def __init__(self, root: Optional[SimpleTreeNode]):
@@ -70,6 +65,7 @@ class SimpleTree:
         if not self.Root:
             return 0
         cur_node = self.Root
+
         def traversal(node: SimpleTreeNode):
             nonlocal cnt
             if node.Children:
@@ -96,32 +92,13 @@ class SimpleTree:
         return traversal(cur_node)
 
 
-if __name__ == '__main__':
-    root = SimpleTreeNode(val=0, parent=None)
-    n1 = SimpleTreeNode(val=1, parent=None)
-    n2 = SimpleTreeNode(val=2, parent=None)
-    n22 = SimpleTreeNode(val=2, parent=None)
-    n3 = SimpleTreeNode(val=3, parent=None)
-    n4 = SimpleTreeNode(val=4, parent=None)
-    n5 = SimpleTreeNode(val=5, parent=None)
+    def get_tree_level_with_values(self, node, break_lvl: Optional[int] = None):
+        def traversal(node, level):
+            show = f"\t" * level + str(node.NodeValue) + f": level {level}"
+            print(show)
 
-    tree = SimpleTree(root=root)
-    #############################################
-    tree.AddChild(ParentNode=root, NewChild=n2)
-    #tree.AddChild(ParentNode=n2, NewChild=n1)
-    tree.AddChild(ParentNode=root, NewChild=n3)
-    tree.AddChild(ParentNode=n2, NewChild=n4)
-    tree.AddChild(ParentNode=n3, NewChild=n22)
-    tree.AddChild(ParentNode=n22, NewChild=n5)
-
-    #print(tree.LeafCount())
-    print(root)
-
-    #tree.DeleteNode(n1)
-    #print(tree.GetAllNodes())
-    #print(tree.Count())
-    #print(tree.LeafCount())
-    #print(root)
-
-    tree.MoveNode(n22, n2)
-    print(root)
+            if level == break_lvl:
+                return
+            for child in node.Children:
+                traversal(child, level + 1)
+        return traversal(node, 0)

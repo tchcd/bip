@@ -72,6 +72,48 @@ def test_find_nodes_by_value():
     assert nodes == [root, n1, n11]
 
 
+def test_get_node_num():
+    root = SimpleTreeNode(val=0, parent=None)
+    n1 = SimpleTreeNode(val=1, parent=None)
+    n2 = SimpleTreeNode(val=2, parent=None)
+    n3 = SimpleTreeNode(val=3, parent=None)
+    n4 = SimpleTreeNode(val=4, parent=None)
+    n5 = SimpleTreeNode(val=5, parent=None)
+    tree = SimpleTree(root)
+    tree.AddChild(root, n1)
+    tree.AddChild(root, n2)
+    tree.AddChild(n1, n3)
+    tree.AddChild(n1, n4)
+    tree.AddChild(n2, n5)
+
+    print(root)
+
+    cnt = tree.Count()
+
+    assert cnt == 3
+
+
+def test_get_leafs_num():
+    root = SimpleTreeNode(val=0, parent=None)
+    n1 = SimpleTreeNode(val=1, parent=None)
+    n2 = SimpleTreeNode(val=2, parent=None)
+    n3 = SimpleTreeNode(val=3, parent=None)
+    n4 = SimpleTreeNode(val=4, parent=None)
+    n5 = SimpleTreeNode(val=5, parent=None)
+    tree = SimpleTree(root)
+    tree.AddChild(root, n1)
+    tree.AddChild(root, n2)
+    tree.AddChild(n1, n3)
+    tree.AddChild(n1, n4)
+    tree.AddChild(n2, n5)
+
+    print(root)
+
+    leafs = tree.Count()
+
+    assert leafs == 3
+
+
 
 if __name__ == '__main__':
-    test_find_nodes_by_value()
+    test_get_node_num()
