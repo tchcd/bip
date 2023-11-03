@@ -29,35 +29,21 @@ class SimpleTree:
         # ваш код выдачи всех узлов дерева в определённом порядке
         if self.Root is None:
             return []
-        if not self.Root.Children:
-            return [self.Root]
+        all_nodes = []
+        self.get_all_nodes_traversal(self.Root, all_nodes)
+        return all_nodes
 
-        cur_node = self.Root
-        nodes = self.get_all_nodes_traversal(cur_node)
-        return nodes
-
-    def get_all_nodes_traversal(self, node):
-        nodes = []
-        if node.Children:
-            nodes.append(node)
-            for node in node.Children:
-                nodes.extend(self.get_all_nodes_traversal(node))
-        return nodes
+    def get_all_nodes_traversal(self, node, all_nodes):
+        all_nodes.append(node)
+        for node in node.Children:
+            self.get_all_nodes_traversal(node, all_nodes)
+        return all_nodes
 
 
     def FindNodesByValue(self, val):
         # ваш код поиска узлов по значению
-        nodes = []
-        cur_node = self.Root
-        if cur_node.NodeValue == val:
-            nodes.append(cur_node)
-        def traversal(node):
-            if node.NodeValue == val and node.Children:
-                nodes.append(node)
-            for node in node.Children:
-                traversal(node)
-        traversal(cur_node)
-        return nodes
+        nodes = self.GetAllNodes()
+        return [node for node in nodes if node.NodeValue == val]
 
     def MoveNode(self, OriginalNode: SimpleTreeNode, NewParent: SimpleTreeNode):
         # ваш код перемещения узла вместе с его поддеревом --
@@ -66,45 +52,21 @@ class SimpleTree:
         self.AddChild(NewParent, OriginalNode)
 
     def Count(self):
-        cnt = 0
         if self.Root is None:
             return 0
-        cur_node = self.Root
-
-        if not cur_node.Children:
-            return 1
-
-        def traversal(node: SimpleTreeNode):
-            nonlocal cnt
-            if node.Children:
-                cnt += 1
-            for children_node in node.Children:
-                traversal(children_node)
-            return cnt
-        return traversal(cur_node)
+        return len(self.GetAllNodes())
 
 
     def LeafCount(self):
-        cnt = 0
-
         if not self.Root:
             return 0
-        cur_node = self.Root
 
-        if not cur_node.Children:
-            return 1
-
-        def traversal(node: SimpleTreeNode):
-            nonlocal cnt
-            if not node.Children:
-                cnt += 1
-            for children_node in node.Children:
-                traversal(children_node)
-            return cnt
-        return traversal(cur_node)
+        all_nodes = self.GetAllNodes()
+        leafs = [node for node in all_nodes if not node.Children]
+        return len(leafs)
 
 
-    def get_tree_level_with_values(self, node, break_lvl: Optional[int] = None):
+    def show_tree_level_with_values(self, break_lvl: Optional[int] = None):
         def traversal(node, level):
             show = f"\t" * level + str(node.NodeValue) + f": level {level}"
             print(show)
@@ -113,4 +75,4 @@ class SimpleTree:
                 return
             for child in node.Children:
                 traversal(child, level + 1)
-        return traversal(node, 0)
+        return traversal(self.Root, 0)
