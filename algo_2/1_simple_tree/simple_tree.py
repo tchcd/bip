@@ -66,6 +66,9 @@ class SimpleTree:
             return 0
         cur_node = self.Root
 
+        if not cur_node.Children:
+            return 1
+
         def traversal(node: SimpleTreeNode):
             nonlocal cnt
             if node.Children:
@@ -78,9 +81,13 @@ class SimpleTree:
 
     def LeafCount(self):
         cnt = 0
+
         if not self.Root:
             return 0
         cur_node = self.Root
+
+        if not cur_node.Children:
+            return 0
 
         def traversal(node: SimpleTreeNode):
             nonlocal cnt
