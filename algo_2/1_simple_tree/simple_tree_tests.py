@@ -1,5 +1,5 @@
 from simple_tree import SimpleTreeNode, SimpleTree
-
+import pytest
 
 def test_add_child():
     root = SimpleTreeNode(0, None)
@@ -113,6 +113,32 @@ def test_get_leafs_num():
 
     assert leafs == 3
 
+
+def test_count_two_1():
+    root = SimpleTreeNode(val=0, parent=None)
+    n1 = SimpleTreeNode(val=1, parent=None)
+
+
+    tree = SimpleTree(root)
+    tree.AddChild(root, n1)
+
+
+    assert tree.Count() == 1
+    assert tree.LeafCount() == 1
+
+
+#
+# def test_count_two_1():
+#     root = SimpleTreeNode(val=0, parent=None)
+#     n1 = SimpleTreeNode(val=1, parent=None)
+#     n2 = SimpleTreeNode(val=2, parent=None)
+#
+#     tree = SimpleTree(root)
+#     tree.AddChild(root, n1)
+#     tree.AddChild(root, n2)
+#
+#
+#     assert tree.Count() ==
 
 
 if __name__ == '__main__':
