@@ -27,8 +27,11 @@ class SimpleTree:
 
     def GetAllNodes(self):
         # ваш код выдачи всех узлов дерева в определённом порядке
-        if not self.Root:
+        if self.Root is None:
             return []
+        if not self.Root.Children:
+            return [self.Root]
+
         cur_node = self.Root
         nodes = self.get_all_nodes_traversal(cur_node)
         return nodes
