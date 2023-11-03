@@ -49,6 +49,8 @@ class SimpleTree:
         # ваш код поиска узлов по значению
         nodes = []
         cur_node = self.Root
+        if cur_node.NodeValue == val:
+            nodes.append(cur_node)
         def traversal(node):
             if node.NodeValue == val and node.Children:
                 nodes.append(node)
