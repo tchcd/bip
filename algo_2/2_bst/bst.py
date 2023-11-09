@@ -1,41 +1,34 @@
 from typing import Optional
 
-
 class BSTNode:
 
     def __init__(self, key, val, parent):
-        self.NodeKey = key  # ключ узла
-        self.NodeValue = val  # значение в узле
-        self.Parent = parent  # родитель или None для корня
-        self.LeftChild = None  # левый потомок
-        self.RightChild = None  # правый потомок
+        self.NodeKey = key
+        self.NodeValue = val
+        self.Parent = parent
+        self.LeftChild = None
+        self.RightChild = None
 
 
-class BSTFind:  # промежуточный результат поиска
-
+class BSTFind:
     def __init__(self):
-        self.Node = None  # None если
-        # в дереве вообще нету узлов
-
-        self.NodeHasKey = False  # True если узел найден
-        self.ToLeft = False  # True, если родительскому узлу надо
-        # добавить новый узел левым потомком
-
+        self.Node = None
+        self.NodeHasKey = False
+        self.ToLeft = False
 
 
 class BST:
 
     def __init__(self, node):
-        self.Root = node  # корень дерева, или None
+        self.Root = node
 
     def FindNodeByKey(self, key) -> BSTFind:
-        # ищем в дереве узел и сопутствующую информацию по ключу
         if self.Root is None:
             return BSTFind()
 
         found_node = self.compare_keys(self.Root, key)
 
-        return found_node # возвращает BSTFind
+        return found_node
 
     def create_bst_find_node(self, node: Optional[BSTNode]= None, node_has_key: bool = False, to_left: bool = False):
         bst = BSTFind()
@@ -63,10 +56,13 @@ class BST:
             return None
 
     def AddKeyValue(self, key, val):
-        # добавляем ключ-значение в дерево
+        if self.Root is None:
+            self.Root = BSTNode(key, val, None)
+            return True
+
         bst_find_node = self.FindNodeByKey(key=key)
         if bst_find_node.NodeHasKey:
-            return False  # если ключ уже есть
+            return False
 
         new_node = BSTNode(key, val, parent=bst_find_node.Node)
 
@@ -74,63 +70,78 @@ class BST:
             bst_find_node.Node.LeftChild = new_node
         else:
             bst_find_node.Node.RightChild = new_node
+        return True
 
 
-    def FinMinMax(self, FromNode, FindMax: bool) -> BSTNode:
-        # ищем максимальный/минимальный ключ в поддереве
-        # возвращается объект типа BSTNode
-        if FromNode.RightChild and FindMax:
-            return self.FinMinMax(FromNode.RightChild, True)
-        elif FromNode.LeftChild and not FindMax:
-            return self.FinMinMax(FromNode.LeftChild, False)
+    def FinMinMax(self, FromNode, FindMax):
+        if FindMax:
+            node = self.find_max(FromNode, FromNode.Parent)
         else:
-            return FromNode
+            node = self.find_min(FromNode, FromNode.Parent)
+        return node
+
+    def find_max(self, node, parent):
+        if not node:
+            return parent
+        return self.find_max(node.RightChild, node)
+
+    def find_min(self, node, parent):
+        if not node:
+            return parent
+        return self.find_min(node.LeftChild, node)
 
 
     def DeleteNodeByKey(self, key):
-        """
-        удаляемый узел надо заменить так называемым узлом-преемником, ключ которого -- наименьший из всех ключей, которые больше ключа удаляемого узла.
-        Иными словами, нам надо взять правого потомка удаляемого узла,
-
-        и далее спускаться по всем левым потомкам.
-        Если мы находим лист, то его и надо поместить вместо удаляемого узла.
-        Если мы находим узел, у которого есть только правый потомок, то преемником берём этот узел,
-        а вместо него помещаем его правого потомка.
-
-        """
         node_to_delete = self.FindNodeByKey(key)
         if not node_to_delete.NodeHasKey:
-            return False # если узел не найден
+            return False
 
-        self.delete_traversal(node_to_delete.Node)
+        node_to_delete = node_to_delete.Node
+        delete_left_node = node_to_delete.LeftChild
+        delete_right_node = node_to_delete.RightChild
+
+        if node_to_delete == self.Root:
+            self.Root = None
+
+        node_to_replace = self.node_to_replace_traversal(delete_left_node, delete_right_node)
+
+        if not node_to_delete.Parent:
+            self.Root = node_to_replace
+            return True
+
+        if delete_left_node and delete_right_node:
+            delete_left_node.Parent = node_to_replace
+            node_to_replace.LeftChild = delete_left_node
+
+            if node_to_replace == node_to_delete.RightChild:
+                return
+
+            if node_to_replace.RightChild and node_to_replace.RightChild:
+                    node_to_replace.Parent.LeftChild = node_to_replace.RightChild
+            else:
+                node_to_replace.Parent.LeftChild = None
+            node_to_replace.RightChild = delete_right_node
+            delete_right_node.Parent = node_to_replace
+
+        if node_to_replace:
+            node_to_replace.Parent = node_to_delete.Parent
+
+        if node_to_delete.NodeKey > node_to_delete.Parent.NodeKey:
+            node_to_delete.Parent.RightChild = node_to_replace
+        if node_to_replace.NodeKey < node_to_replace.Parent.NodeKey:
+            node_to_delete.Parent.LeftChild = node_to_replace
 
 
-        #node_to_replace.Parent = node_to_delete.Node.Parent
-        #node_to_replace.LeftChild = node_to_delete.Node.LeftChild
-        #node_to_replace.LeftChild =  node_to_delete.Node.RightChild
-
-
-        #node_to_delete.Node.Parent = None
-        #node_to_delete.Node.LeftChild = None
-        #node_to_delete.Node.RightChild = None
-
-        a = 5
-
-
-    def delete_traversal(self, node) -> BSTNode:
-        cur_node = node.RightChild
-        if cur_node.LeftChild is None and cur_node.RightChild is None:
-            cur_node.Parent = node.Parent
-            node.Parent.RightChild = cur_node
-            node.Parent = None
-            node.RightChild = None
-            return cur_node
-        if cur_node.LeftChild is None and cur_node.RightChild:
-            cur_node.RightChild.Parent = node.Parent
-
-            node.Parent = None
-            return cur_node.RightChild
-        self.delete_traversal(cur_node.RightChild)
+    def node_to_replace_traversal(self, left_child, right_child):
+        if not left_child and not right_child:
+            return None
+        if not left_child and right_child:
+            return right_child
+        if left_child and not right_child:
+            return left_child
+        if left_child and right_child:
+            min_node = self.FinMinMax(right_child, False)
+            return min_node
 
 
     def Count(self):
@@ -145,48 +156,3 @@ class BST:
 
         traversal(self.Root)
         return len(nodes)
-
-
-
-    def printTree(self, node, level=0):
-        if node != None:
-            self.printTree(node.LeftChild, level + 1)
-            print(' ' * 4 * level + '-> ' + str(node.NodeKey))
-            self.printTree(node.RightChild, level + 1)
-
-
-
-if __name__ == '__main__':
-    root = BSTNode(8, 'eight', None)
-    bst = BST(root)
-    n1 = BSTNode(4, 'four', None)
-    n2 = BSTNode(12, 'twelve', None)
-    n3 = BSTNode(2, 'two', None)
-    n4 = BSTNode(6, 'six', None)
-
-    root.LeftChild = n1
-    root.RightChild = n2
-
-    n1.Parent = root
-    n2.Parent = root
-
-    n1.LeftChild = n3
-    n1.RightChild = n4
-    n3.Parent = n1
-    n4.Parent = n1
-
-
-    bst.AddKeyValue(9,9)
-    bst.AddKeyValue(13, 13)
-
-
-    bst.printTree(root)
-
-    print("_____________________________")
-
-    print(bst.DeleteNodeByKey(12))
-
-    bst.printTree(root)
-    #print(bst.FindNodeByKey(9).NodeHasKey)
-    #print(bst.FindNodeByKey(13).NodeHasKey)
-    #print(bst.FindNodeByKey(11).NodeHasKey)
