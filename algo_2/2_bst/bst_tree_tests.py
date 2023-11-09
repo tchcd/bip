@@ -2,6 +2,7 @@ from bst import BST, BSTNode
 import pytest
 
 
+
 if __name__ == '__main__':
     root = BSTNode(8, 'eight', None)
     bst = BST(root)
@@ -34,7 +35,6 @@ if __name__ == '__main__':
 
     print("_____________________________")
 
-    print(bst.DeleteNodeByKey(12))
+    print(bst.DeleteNodeByKey(8))
 
     bst.printTree(root)
-

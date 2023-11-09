@@ -105,31 +105,32 @@ class BST:
 
         node_to_replace = self.node_to_replace_traversal(delete_left_node, delete_right_node)
 
-        if not node_to_delete.Parent:
-            self.Root = node_to_replace
-            return True
-
         if delete_left_node and delete_right_node:
-            delete_left_node.Parent = node_to_replace
-            node_to_replace.LeftChild = delete_left_node
-
-            if node_to_replace == node_to_delete.RightChild:
-                return
-
-            if node_to_replace.RightChild and node_to_replace.RightChild:
-                    node_to_replace.Parent.LeftChild = node_to_replace.RightChild
-            else:
-                node_to_replace.Parent.LeftChild = None
-            node_to_replace.RightChild = delete_right_node
-            delete_right_node.Parent = node_to_replace
+            self.replace_nodes(node_to_delete, delete_left_node, delete_right_node, node_to_replace)
 
         if node_to_replace:
             node_to_replace.Parent = node_to_delete.Parent
-
+        if not node_to_delete.Parent:
+            self.Root = node_to_replace
+            return True
         if node_to_delete.NodeKey > node_to_delete.Parent.NodeKey:
             node_to_delete.Parent.RightChild = node_to_replace
-        if node_to_replace.NodeKey < node_to_replace.Parent.NodeKey:
+        if node_to_delete.NodeKey < node_to_delete.Parent.NodeKey:
             node_to_delete.Parent.LeftChild = node_to_replace
+        return True
+
+    def replace_nodes(self, node_to_delete, left_child, right_child, node_to_replace):
+        left_child.Parent = node_to_replace
+        node_to_replace.LeftChild = left_child
+        if node_to_replace == node_to_delete.RightChild:
+            return
+        if node_to_replace.RightChild and node_to_replace.RightChild:
+                parent = node_to_replace.Parent
+                parent.LeftChild = node_to_replace.RightChild
+        else:
+            node_to_replace.Parent.LeftChild = None
+        node_to_replace.RightChild = right_child
+        right_child.Parent = node_to_replace
 
 
     def node_to_replace_traversal(self, left_child, right_child):
