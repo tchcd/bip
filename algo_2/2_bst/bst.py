@@ -165,32 +165,38 @@ class BST:
 
 
     def DeepAllNodes(self, order):
-        """
-        находясь в некотором узле, мы проверяем на наличие искомого объекта, в некотором порядке,
-        левое поддерево (рекурсивно), текущий узел, правое поддерево (рекурсивно).
-        (in-order)
-        """
         all_nodes = []
-        match order:
-            case 0:
-                return self.in_order_traversal(self.Root, all_nodes)
-            case 1:
-                order = "post-order"
-            case 2:
-                order = "pre-order"
+        if order == 0:
+            return self.in_order_traversal(self.Root, all_nodes)
+        if order == 1:
+            return self.post_order_traversal(self.Root, all_nodes)
+        if order == 2:
+            return self.pre_order_traversal(self.Root, all_nodes)
 
-        pass
 
-    # 4,2,6,12,10,9
-    # 2,6,4,9,11,10
     def in_order_traversal(self, node: BSTNode, all_nodes: list):
-        if node.LeftChild:
-            all_nodes.append(node.LeftChild.NodeKey)  # Убрать Key оставит ьноду
+        if node:
             self.in_order_traversal(node.LeftChild, all_nodes)
-        if node.RightChild:
-            all_nodes.append(node.RightChild.NodeKey)  # Убрать Key оставит ьноду
+            all_nodes.append(node.NodeKey)
             self.in_order_traversal(node.RightChild, all_nodes)
-        all_nodes.append(node.NodeKey)
+        return all_nodes
+
+
+    def post_order_traversal(self, node: BSTNode, all_nodes: list):
+        if node:
+            self.post_order_traversal(node.LeftChild, all_nodes)
+            self.post_order_traversal(node.RightChild, all_nodes)
+            all_nodes.append(node.NodeKey)
+        return all_nodes
+
+
+    def pre_order_traversal(self, node: BSTNode, all_nodes: list):
+        if node:
+            all_nodes.append(node.NodeKey)
+            self.pre_order_traversal(node.LeftChild, all_nodes)
+            self.pre_order_traversal(node.RightChild, all_nodes)
+        return all_nodes
+
 
 
     def printTree(self, node, level=0):
@@ -232,4 +238,4 @@ if __name__ == '__main__':
 
     bst.printTree(root)
 
-    print(bst.DeepAllNodes(0))
+    print(bst.DeepAllNodes(1))
