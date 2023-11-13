@@ -124,9 +124,9 @@ class BST:
         node_to_replace.LeftChild = left_child
         if node_to_replace == node_to_delete.RightChild:
             return
-        if node_to_replace.RightChild and node_to_replace.RightChild:
-                parent = node_to_replace.Parent
-                parent.LeftChild = node_to_replace.RightChild
+        if node_to_replace.RightChild:
+            parent = node_to_replace.Parent
+            parent.LeftChild = node_to_replace.RightChild
         else:
             node_to_replace.Parent.LeftChild = None
         node_to_replace.RightChild = right_child
@@ -157,3 +157,79 @@ class BST:
 
         traversal(self.Root)
         return len(nodes)
+
+    def WideAllNodes(self):
+
+
+        pass
+
+
+    def DeepAllNodes(self, order):
+        """
+        находясь в некотором узле, мы проверяем на наличие искомого объекта, в некотором порядке,
+        левое поддерево (рекурсивно), текущий узел, правое поддерево (рекурсивно).
+        (in-order)
+        """
+        all_nodes = []
+        match order:
+            case 0:
+                return self.in_order_traversal(self.Root, all_nodes)
+            case 1:
+                order = "post-order"
+            case 2:
+                order = "pre-order"
+
+        pass
+
+    # 4,2,6,12,10,9
+    # 2,6,4,9,11,10
+    def in_order_traversal(self, node: BSTNode, all_nodes: list):
+        if node.LeftChild:
+            all_nodes.append(node.LeftChild.NodeKey)  # Убрать Key оставит ьноду
+            self.in_order_traversal(node.LeftChild, all_nodes)
+        if node.RightChild:
+            all_nodes.append(node.RightChild.NodeKey)  # Убрать Key оставит ьноду
+            self.in_order_traversal(node.RightChild, all_nodes)
+        all_nodes.append(node.NodeKey)
+
+
+    def printTree(self, node, level=0):
+        if node != None:
+            self.printTree(node.LeftChild, level + 1)
+            print(' ' * 4 * level + '-> ' + str(node.NodeKey))
+            self.printTree(node.RightChild, level + 1)
+
+
+
+if __name__ == '__main__':
+    root = BSTNode(8, 'eight', None)
+    bst = BST(root)
+    n1 = BSTNode(4, 'four', None)
+    n2 = BSTNode(12, 'twelve', None)
+    n3 = BSTNode(2, 'two', None)
+    n4 = BSTNode(6, 'six', None)
+
+
+    root.LeftChild = n1
+    root.RightChild = n2
+
+    n1.Parent = root
+    n2.Parent = root
+
+    n1.LeftChild = n3
+    n1.RightChild = n4
+    n3.Parent = n1
+    n4.Parent = n1
+
+
+    bst.AddKeyValue(10, 10)
+    bst.AddKeyValue(9, 9)
+    bst.AddKeyValue(11, 11)
+    bst.AddKeyValue(14, 14)
+    bst.AddKeyValue(13, 13)
+    bst.AddKeyValue(15, 15)
+
+
+    bst.printTree(root)
+
+    print(bst.DeepAllNodes(0))
