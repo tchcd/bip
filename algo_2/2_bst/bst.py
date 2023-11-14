@@ -158,10 +158,20 @@ class BST:
         traversal(self.Root)
         return len(nodes)
 
+
     def WideAllNodes(self):
-
-
-        pass
+        if self.Root is None:
+            return []
+        all_nodes = []
+        deq = [self.Root]
+        while deq:
+            cur = deq.pop(0)
+            if cur.LeftChild:
+                deq.append(cur.LeftChild)
+            if cur.RightChild:
+                deq.append(cur.RightChild)
+            all_nodes.append(cur)
+        return all_nodes
 
 
     def DeepAllNodes(self, order):
@@ -177,7 +187,7 @@ class BST:
     def in_order_traversal(self, node: BSTNode, all_nodes: list):
         if node:
             self.in_order_traversal(node.LeftChild, all_nodes)
-            all_nodes.append(node.NodeKey)
+            all_nodes.append(node)
             self.in_order_traversal(node.RightChild, all_nodes)
         return all_nodes
 
@@ -186,13 +196,13 @@ class BST:
         if node:
             self.post_order_traversal(node.LeftChild, all_nodes)
             self.post_order_traversal(node.RightChild, all_nodes)
-            all_nodes.append(node.NodeKey)
+            all_nodes.append(node)
         return all_nodes
 
 
     def pre_order_traversal(self, node: BSTNode, all_nodes: list):
         if node:
-            all_nodes.append(node.NodeKey)
+            all_nodes.append(node)
             self.pre_order_traversal(node.LeftChild, all_nodes)
             self.pre_order_traversal(node.RightChild, all_nodes)
         return all_nodes
@@ -238,4 +248,4 @@ if __name__ == '__main__':
 
     bst.printTree(root)
 
-    print(bst.DeepAllNodes(1))
+    print(bst.WideAllNodes())
