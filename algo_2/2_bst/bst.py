@@ -72,7 +72,6 @@ class BST:
             bst_find_node.Node.RightChild = new_node
         return True
 
-
     def FinMinMax(self, FromNode, FindMax):
         if FindMax:
             node = self.find_max(FromNode, FromNode.Parent)
@@ -89,7 +88,6 @@ class BST:
         if not node:
             return parent
         return self.find_min(node.LeftChild, node)
-
 
     def DeleteNodeByKey(self, key):
         node_to_delete = self.FindNodeByKey(key)
@@ -132,7 +130,6 @@ class BST:
         node_to_replace.RightChild = right_child
         right_child.Parent = node_to_replace
 
-
     def node_to_replace_traversal(self, left_child, right_child):
         if not left_child and not right_child:
             return None
@@ -143,7 +140,6 @@ class BST:
         if left_child and right_child:
             min_node = self.FinMinMax(right_child, False)
             return min_node
-
 
     def Count(self):
         if not self.Root:
@@ -157,7 +153,6 @@ class BST:
 
         traversal(self.Root)
         return len(nodes)
-
 
     def WideAllNodes(self):
         if self.Root is None:
@@ -183,14 +178,12 @@ class BST:
         if order == 2:
             return self.pre_order_traversal(self.Root, all_nodes)
 
-
     def in_order_traversal(self, node: BSTNode, all_nodes: list):
         if node:
             self.in_order_traversal(node.LeftChild, all_nodes)
             all_nodes.append(node)
             self.in_order_traversal(node.RightChild, all_nodes)
         return all_nodes
-
 
     def post_order_traversal(self, node: BSTNode, all_nodes: list):
         if node:
@@ -199,7 +192,6 @@ class BST:
             all_nodes.append(node)
         return all_nodes
 
-
     def pre_order_traversal(self, node: BSTNode, all_nodes: list):
         if node:
             all_nodes.append(node)
@@ -207,45 +199,3 @@ class BST:
             self.pre_order_traversal(node.RightChild, all_nodes)
         return all_nodes
 
-
-
-    def printTree(self, node, level=0):
-        if node != None:
-            self.printTree(node.LeftChild, level + 1)
-            print(' ' * 4 * level + '-> ' + str(node.NodeKey))
-            self.printTree(node.RightChild, level + 1)
-
-
-
-if __name__ == '__main__':
-    root = BSTNode(8, 'eight', None)
-    bst = BST(root)
-    n1 = BSTNode(4, 'four', None)
-    n2 = BSTNode(12, 'twelve', None)
-    n3 = BSTNode(2, 'two', None)
-    n4 = BSTNode(6, 'six', None)
-
-
-    root.LeftChild = n1
-    root.RightChild = n2
-
-    n1.Parent = root
-    n2.Parent = root
-
-    n1.LeftChild = n3
-    n1.RightChild = n4
-    n3.Parent = n1
-    n4.Parent = n1
-
-
-    bst.AddKeyValue(10, 10)
-    bst.AddKeyValue(9, 9)
-    bst.AddKeyValue(11, 11)
-    bst.AddKeyValue(14, 14)
-    bst.AddKeyValue(13, 13)
-    bst.AddKeyValue(15, 15)
-
-
-    bst.printTree(root)
-
-    print(bst.WideAllNodes())
